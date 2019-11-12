@@ -1,0 +1,25 @@
+<n<nav class="navbar bg-light">
+<ul class="navbar-nav justify-content-left text-left">
+  {% if user.is_authenticated %}
+      <li class="nav-item">{{ user.get_username }}</li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'adminapp:training' %}">Тренировки</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'adminapp:users' %}">Тренирующиеся</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'adminapp:scedules' %}">Программы занятий</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'adminapp:progress' %}">Результаты</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'adminapp:messages' %}">Сообщения</a>
+      </li>
+  {% else %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'login'%}?next={{request.path}}">Войти</a>
+      </li>
+  {% endif %}
+</ul>

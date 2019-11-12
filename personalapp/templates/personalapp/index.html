@@ -1,0 +1,39 @@
+{% extends 'personalapp/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-md2">
+        {% include 'personalapp/includes/inc__lcab_menu.html' %}
+      </div>
+      <div class="col-md2">
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>&nbsp;</th>
+                        {% for day in day_current_week %}
+                        <th width="13%">{{ day }}<br>{{ day | date:"l"}}  </th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for hour in hour_current_day %}
+                    <tr>
+                        <td>{{ hour }}</td>
+                        {% for day in day_current_week %}
+                            <td rowspan="1">
+                             {% for item in items %}
+                                {% if item.date == day and item.time == hour %}
+                                    {{ item.fitnessuser }} {{ item.training }}
+                                {% endif %}
+                            {% endfor %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+      </div>
+  </div>
+{% endblock %}

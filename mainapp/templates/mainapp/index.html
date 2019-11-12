@@ -1,0 +1,16 @@
+{% extends 'mainapp/base.html' %}
+{% load static %}
+{% block content %}
+{% for product in products %}
+  <div class="block">
+      {% for photo in photos %}
+      <img src="/media/{{ photo.image }}" alt="{{ product.short_desc }}">
+      <div class="description">
+        <h3 class="big-bold"> {{ product.category.name }}</h3>        
+        <h4 class="red"> {{ product.name }}</h4>
+        <div class="description-text"> {{ product.description }}</div>
+      </div>
+      {% endfor %}
+  </div>
+{% endfor %}
+{% endblock %}

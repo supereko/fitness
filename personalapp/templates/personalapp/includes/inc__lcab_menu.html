@@ -1,0 +1,28 @@
+<nav class="navbar bg-light">
+<ul class="navbar-nav justify-content-left text-left">
+  {% if user.is_authenticated %}
+      <li class="nav-item">Ваш личный кабинет {{ user.get_username }}</li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'personalapp:index' %}">Расписание и статистика</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'personalapp:training' %}">Программа тренировок</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'personalapp:antropometry' %}">Антропометрические данные</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'personalapp:fitnessrhomb' %}">Фитнес ромб</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'personalapp:lvlup' %}">Прогресс</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'personalapp:feedback' %}">Написать письмо</a>
+      </li>
+  {% else %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'login'%}?next={{request.path}}">Войти</a>
+      </li>
+  {% endif %}
+</ul>
