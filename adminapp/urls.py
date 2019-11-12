@@ -9,10 +9,10 @@ urlpatterns = [
     path('trainings/update/<int:pk>/', adminapp.training_update, name='training_update'),
     path('trainings/delete/<int:pk>/', adminapp.training_delete, name='training_delete'),
 
-    path('scedules/', adminapp.scedules, name='scedules'),
-    path('scedules/create/', adminapp.scedule_create, name='scedule_create'),
-    path('scedules/update/<int:pk>/', adminapp.scedule_update, name='scedule_update'),
-    path('scedules/delete/<int:pk>/', adminapp.scedule_delete, name='scedule_delete'),
+    path('schedules/', adminapp.schedules, name='schedules'),
+    path('schedules/create/', adminapp.schedule_create, name='schedule_create'),
+    path('schedules/update/<int:pk>/', adminapp.schedule_update, name='schedule_update'),
+    path('schedules/delete/<int:pk>/', adminapp.schedule_delete, name='schedule_delete'),
 
     path('users/read/', adminapp.users, name='users'),
     path('users/create/', adminapp.user_create, name='user_create'),

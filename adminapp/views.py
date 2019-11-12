@@ -76,3 +76,53 @@ def user_delete(request, pk):
         }
     
     return render(request, 'adminapp/user_delete.html', content)
+
+
+def trainings(request):
+    """ Функция для отображения тренировок """
+    pass
+
+
+def training_create(request):
+    """ Функция для отображения формы создания новой тренировки"""
+    pass
+
+
+def training_update(request, pk):
+    """ Функция для отображения формы редактирования новой тренировки"""
+    pass
+
+
+def training_delete(request, pk):
+    """ Функция для отображения формы удаления новой тренировки"""
+    pass
+
+
+def schedules(request):
+    """ Функция для отображения занятий """
+    pass
+
+
+def schedule_create(request):
+    """ Функция для отображения формы создания нового занятия"""
+    pass
+
+
+def schedule_update(request, pk):
+    """ Функция для отображения формы редактирования нового занятия"""
+    pass
+
+
+def schedule_delete(request, pk):
+    """ Функция для отображения формы удаления нового занятия"""
+    pass
+
+
+def progress(request, pk):
+    """ Функция для отображения графика прогресса тренирующихся"""
+    pass
+
+
+def messages(request, pk):
+    """ Функция для отображения сообщений из личных кабинетов тренирующихся"""
+    pass
