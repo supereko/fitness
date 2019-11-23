@@ -3,6 +3,8 @@
 
 
 {% block content %}
+    <br><br><br>
+    <div class="user_avatar"><img src="/media/{{ user.avatar }}"></div>
     <form class="form-horizontal" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
@@ -13,5 +15,5 @@
             на главную
         </a>
     </button>
-    <div class="user_avatar"><img src="/media/{{ user.avatar }}"></div>
+
 {% endblock %}

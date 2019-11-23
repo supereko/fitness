@@ -1,24 +1,25 @@
 {% extends 'adminapp/base.html' %}
 {% load static %}
 
+
 {% block content %}
     <br><br><br>
   <div class="user_delete">
-    Уверены, что хотите удалить {{ user_to_delete.username }} 
-    {% if user_to_delete.first_name %}
-      ({{ user_to_delete.first_name|title }}</b>
-      {% if user_to_delete.last_name %}
-        {{ user_to_delete.last_name|title }}
+    Уверены, что хотите удалить {{ training_to_delete.desc }}
+    {% if training_to_delete.short_desc %}
+      ({{ training_to_delete.desc|title }}</b>
+      {% if training_to_delete.short_desc %}
+        {{ training_to_delete.short_desc|title }}
       {% endif %})
     {% endif %}
     ?
-    <form action="{% url 'admin:user_delete' user_to_delete.pk %}"
+    <form action="{% url 'admin:training_delete' training_to_delete.pk %}"
           method="post">
       {% csrf_token %}
       <input class="btn btn-danger" type="submit" value="удалить">
     </form>
     <button class="btn btn-success">
-      <a href="{% url 'admin:users' %}">
+      <a href="{% url 'admin:trainings' %}">
         Отмена
       </a>
     </button>

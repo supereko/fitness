@@ -1,0 +1,37 @@
+{% extends 'adminapp/base.html' %}
+{% load static %}
+
+{% block content %}
+    <br><br><br>
+<div class="container h-100">
+  <div class="row h-100 justify-content-center align-items-center">
+    <dl class="dl-horizontal">
+        <dt>
+          <button class="new_user">
+            <a href="{% url 'admin:training_create' %}"> новая тренировка </a>
+          </button>
+        </dt><dd></dd>
+        {% for training in trainings %}
+        <dt>
+            <div>
+                <p>
+                    {{ training.desc|title }}
+                    {{ training.short_desc|title }}
+                </p>
+              <button> <a href="{% url 'admin:training_update' training.pk %}">
+                  редактировать
+                </a>
+              </button>
+              <button>
+                <a href="{% url 'admin:training_delete' training.pk %}">
+                  удалить
+                </a>
+              </button>
+            </div>
+        </dt>
+        <dd>
+   {% endfor%}
+    </dl>
+    </div>
+  </div>
+{% endblock %}

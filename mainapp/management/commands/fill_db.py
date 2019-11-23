@@ -16,17 +16,14 @@ class Command(BaseCommand):
         antropometries = load_from_json('antropometry')
 
         Antropometry.objects.all().delete()
-        for antropometry in antropometries:
-            new_antropometry = Antropometry(**antropometry)
-            new_antropometry.save()
-        
+        [Antropometry.objects.create(**antropometry) for antropometry in antropometries]
+
         trainings = load_from_json('training')
         
         Training.objects.all().delete()
-        for training in trainings:
-            new_training = Antripometry(**training)
-            new_training.save()
+        [Training.objects.create(**training) for training in trainings]
+
 
             # Создаем суперпользователя при помощи менеджера модели
-        if not User.objects.filter(username='admin').exists():
-            FitnessUser.objects.create_superuser('admin', 'django@fitnes.local', '123456', date_birth=1900-01-01, height=190)
+        if not FitnessUser.objects.filter(username='admin').exists():
+            FitnessUser.objects.create_superuser('admin', 'django@fitnes.local', '123456', date_birth='1900-01-01', height=190)

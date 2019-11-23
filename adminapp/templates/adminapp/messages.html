@@ -1,0 +1,26 @@
+{% extends 'adminapp/base.html' %}
+{% load static %}
+
+{% block content %}
+    <br><br><br>
+<div class="container h-100">
+  <div class="row h-100 justify-content-center align-items-center">
+    <dl class="dl-horizontal">
+        {% for message in messages %}
+            <dt>
+            <div>
+                <p>
+                <img class=imgleft src="{{ MEDIA_URL }}{{ message.fitnessuser.avatar }}" width='90' height='70' alt=''>
+                {{ message.fitnessuser }}
+                {{ message.fitnessuser.email }}
+                {{ message.fitnessuser.phone }}
+                {{ message.body }}
+                </p>
+            </div>
+            </dt>
+            <dd>
+        {% endfor %}
+    </dl>
+   </div>
+</div>
+{% endblock %}

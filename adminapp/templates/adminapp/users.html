@@ -2,43 +2,78 @@
 {% load static %}
 
 {% block content %}
-<div class="container h-100">
-  <div class="row h-100 justify-content-center align-items-center">
+    <br><br><br>
     <dl class="dl-horizontal">
         <dt>
-          <button class="new_user">
+          <button type="button" class="btn btn-outline-primary">
             <a href="{% url 'admin:user_create' %}"> новый пользователь </a>
           </button>
         </dt><dd></dd>
-        {% for object in objects %}
+        {% for user in users %}
         <dt>
-            <img src="/media/{{ object.avatar|default:'users_avatars/default.jpg' }}" height="70" width="70"
-              alt="{{ object.username }}">
-            <div>
-              {% if object.is_superuser %} администратор {% else %} пользователь {% endif %}
-              <button> <a href="{% url 'admin:user_update' object.pk %}">
+            <p><img class="leftimg" src="/media/{{ user.avatar|default:'users_avatars/default.jpg' }}"
+                    height="70" width="70" alt="{{ user.username }}">
+                 <div>
+                     <div>
+                         <p> {% if user.first_name %} {{ user.first_name|title }} {% endif %}
+                            {% if user.last_name %} {{ user.last_name|title }} {% endif %}
+                         </p>
+                     </div>
+                    <div class="user_age"> возраст:{{ user.age }} лет </div>
+                    <div class="user_email"> email:{{ user.email }} </div>
+                    <div class="user_lastlogin"> последний раз был(а):{{ user.last_login }} </div>
+                </div>
+            </p>
+        </dt>
+        <dd>
+            {% if user.is_superuser %} администратор {% else %} пользователь {% endif %}
+              <button type="button" class="btn btn-outline-primary">
+                  <a href="{% url 'admin:user_update' user.pk %}">
                   редактировать
                 </a>
               </button>
-              <button>
-                <a href="{% url 'admin:user_delete' object.pk %}">
+              <button type="button" class="btn btn-outline-primary">
+                <a href="{% url 'admin:user_delete' user.pk %}">
                   удалить
                 </a>
               </button>
-            </div>
-        </dt>
-        <dd>
-          <div class="user_name">
-                <p> {% if object.first_name %} {{ object.first_name|title }} {% endif %}
-                    {% if object.last_name %} {{ object.last_name|title }} {% endif %}
-                </p>
-          </div>
-          <div class="user_age"> возраст:{{ object.age }} лет </div>
-          <div class="user_email"> email:{{ object.email }} </div>
-          <div class="user_lastlogin"> последний раз был(а):{{ object.last_login }} </div>
         </dd>
-   {% endfor%}
+        {% endfor%}
     </dl>
+    <div class="container">
+      <div class="row justify-content-center align-items-center">
+            {% if users.has_other_pages %}
+              <ul class="pagination">
+                {% if users.has_previous %}
+                  <li class="page-item">
+                      <a class="page-link" href="?page={{ users.previous_page_number }}">Предыдущая</a>
+                  </li>
+                {% else %}
+                  <li class="page-item disabled">
+                      <a class="page-link"><span>Предыдущая</span></a>
+                  </li>
+                {% endif %}
+                {% for i in photos.paginator.page_range %}
+                  {% if users.number == i %}
+                      <li class="page-item active">
+                          <a class="page-link"><span>{{ i }}</span></a><span class="sr-only">(current)</span>
+                      </li>
+                  {% else %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                    </li>
+                  {% endif %}
+                {% endfor %}
+                {% if users.has_next %}
+                  <li class="page-item">
+                      <a class="page-link" href="?page={{ users.next_page_number }}">Следущая</a>
+                  </li>
+                {% else %}
+                  <li class="page-item disabled">
+                      <a class="page-link"><span>Следущая</span></a>
+                  </li>
+                {% endif %}
+              </ul>
+            {% endif %}
     </div>
-  </div>
 {% endblock %}

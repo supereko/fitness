@@ -1,19 +1,23 @@
 {% extends 'personalapp/base.html' %}
-{% load staticfiles %}
+{% load static %}
 
 {% block content %}
+    <br><br><br>
   <div class="container">
     <div class="row">
       <div class="col-md2">
         {% include 'personalapp/includes/inc__lcab_menu.html' %}
       </div>
       <div class="col-md2">
-            <table border="1">
-                <thead>
+        <br><br>
+            <table class="table table-striped">
+                <thead class="thead-inverse">
                     <tr>
                         <th>&nbsp;</th>
                         {% for day in day_current_week %}
-                        <th width="13%">{{ day }}<br>{{ day | date:"l"}}  </th>
+                            <th width="13%">
+                                <p class="vertical">{{ day }}<br>{{ day | date:"l"}}</p>
+                            </th>
                         {% endfor %}
                     </tr>
                 </thead>

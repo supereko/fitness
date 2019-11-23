@@ -4,14 +4,6 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from mainapp.models import Photo
 
 
-def index(request):
-    context = {
-        'title': 'главная',
-        #'products': Product.objects.all()[:4],
-        #'basket': get_basket(request)
-    }
-    return render(request, 'mainapp/index.html', context)
-
 def gallery(request):
     photo_list = Photo.objects.order_by('add_datetime')
     paginator = Paginator(photo_list, 8)
@@ -22,8 +14,6 @@ def gallery(request):
         photos = paginator.page(1)
     except EmptyPage:
         photos = paginator.page(paginator.num_pages)
-
-    page = request.GET.get('page', 1)
 
     context = {
         'title': 'Галерея фото',

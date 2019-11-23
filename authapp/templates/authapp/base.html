@@ -18,6 +18,9 @@
     {% endblock %}
 </head>
 <body>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark justify-content-center fixed-top">
+        {% include 'mainapp/includes/inc__main_menu.html' %}
+    </nav>
 	<div class="container">
         <div class="login">
             <div class="h2 text-center head">
@@ -29,5 +32,8 @@
             {% endblock %}
         </div>
 	</div>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark justify-content-center fixed-bottom">
+        {% include 'mainapp/includes/inc__main_menu.html' %}
+    </nav>
 </body>
 </html>   

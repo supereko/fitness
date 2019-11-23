@@ -3,13 +3,13 @@
   {% if user.is_authenticated %}
       <li class="nav-item">{{ user.get_username }}</li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'adminapp:training' %}">Тренировки</a>
+        <a class="nav-link" href="{% url 'adminapp:trainings' %}">Тренировки</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{% url 'adminapp:users' %}">Тренирующиеся</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'adminapp:scedules' %}">Программы занятий</a>
+        <a class="nav-link" href="{% url 'adminapp:schedules' %}">Занятия</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{% url 'adminapp:progress' %}">Результаты</a>

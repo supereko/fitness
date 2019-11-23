@@ -1,9 +1,10 @@
 import datetime as dt
 from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
 from django.utils.timezone import now
+from django.urls import reverse
 
 from mainapp.models import Schedule, ExtractWeek
-from personalapp.forms import AddAntropometryForm
+from personalapp.forms import AddAntropometryForm, AddMessageForm
 
 
 def index(request):
@@ -38,8 +39,17 @@ def training(request):
 
 
 def antropometry(request):
-    form = AddAntropometryForm()
+    """ Функция для добавления промежуточных антропометрических данных"""
+    if request.method == 'POST':
+        form = AddAntropometryForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('personal:index'))
+    else:
+        form = AddAntropometryForm()
+
     context = {
+        'title': 'Новые антропометрические данные',
         'form': form
     }
     return render(request, 'personalapp/antropometry.html', context)
@@ -56,5 +66,18 @@ def fitnessrhomb(request):
 
 
 def feedback(request):
-    context = {}
+    """ Функция для отправки сообщения админу """
+    if request.method == 'POST':
+        form = AddMessageForm(request.POST, request.FILES)
+        if form.is_valid():
+            #form.fields['fitnessuser'] = request.user
+            form.save()
+            return HttpResponseRedirect(reverse('personal:index'))
+    else:
+        form = AddMessageForm()
+
+    context = {
+        'title': 'Новое сообщение',
+        'form': form
+    }
     return render(request, 'personalapp/feedback.html', context)

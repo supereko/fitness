@@ -9,23 +9,28 @@ from authapp.forms import FitnessUserEditForm
 
 
 def login(request):
-
-    form = FitnessUserLoginForm(data=request.POST)
+    next = request.GET['next'] if 'next' in request.GET.keys() else ''
     if request.method == 'POST':
+        form = FitnessUserLoginForm(data=request.POST)
         if form.is_valid():
             username = request.POST['username']
             password = request.POST['password']
-        
             user = auth.authenticate(username=username, password=password)
-        if user and user.is_active:
-            auth.login(request, user)
-            return HttpResponseRedirect(reverse('personal:index'))
+            if user and user.is_active:
+                auth.login(request, user)
+                if 'next' in request.POST.keys():
+                    return HttpResponseRedirect(request.POST['next'])
+                else:
+                    return HttpResponseRedirect(reverse('personal:index'))
+    else:
+        form = FitnessUserLoginForm()
 
-    content = {
-        'title': 'вход', 
-        'form': form
-        }
-    return render(request, 'authapp/login.html', content)
+    context = {
+        'title': 'вход в систему',
+        'form': form,
+        'next': next
+    }
+    return render(request, 'authapp/login.html', context)
 
 def logout(request):
     auth.logout(request)

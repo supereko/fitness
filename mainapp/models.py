@@ -1,4 +1,5 @@
 from random import random
+from django import forms
 from django.db import models
 from django.db.models.functions import Extract
 
@@ -74,9 +75,13 @@ class Training(models.Model):
         max_length=100,
         null=True, blank=True,
     )
+    is_active = models.BooleanField(
+        verbose_name='активна ли тренировка',
+        default=True
+    )
 
     def __str__(self):
-        return self.short_desc
+        return str(self.short_desc)
 
 
 class Schedule(models.Model):
@@ -109,6 +114,23 @@ class Schedule(models.Model):
 
     def __str__(self):
         return f'{self.fitnessuser } { self.date } { self.time } { self.training }'
+
+
+class Message(models.Model):
+    """ Модель сообщений для тренера"""
+    body = models.TextField(
+        verbose_name='Тело сообщения',
+        null=True, blank=True,
+        max_length=250
+    )
+    fitnessuser = models.ForeignKey(
+        FitnessUser,
+        verbose_name="Ссылка на тренирующегося",
+        on_delete=models.CASCADE,
+        null=True, blank=True
+        )
+    def __str__(self):
+        return self.body[:50]
 
 
 @models.DateField.register_lookup

@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import HttpResponseRedirect
@@ -5,8 +6,11 @@ from django.urls import reverse
 from django.utils.timezone import now
 
 from authapp.forms import FitnessUserRegisterForm
-from adminapp.forms import FitnessUserAdminEditForm
-from mainapp.models import FitnessUser, ExtractYear
+from adminapp.forms import (FitnessUserAdminEditForm,
+                            TrainingCreateForm, TrainingEditForm,
+                            ScheduleCreateForm, ScheduleEditForm)
+from mainapp.models import (FitnessUser, ExtractYear, Training,
+                            Schedule, Message)
 
 
 @user_passes_test(lambda u: u.is_superuser)
@@ -16,12 +20,21 @@ def users(request):
         age=year-ExtractYear('date_birth')).order_by(
         '-is_active', '-is_superuser', '-is_staff', 'username'
     )
-    content = {
-        'title': 'админка/пользователи',
-        'objects': users_list
-    	}
+    paginator = Paginator(users_list, 3)
+    page = request.GET.get('page', 1)
+    try:
+        users = paginator.page(page)
+    except PageNotAnInteger:
+        users = paginator.page(1)
+    except EmptyPage:
+        users = paginator.page(paginator.num_pages)
 
-    return render(request, 'adminapp/users.html', content)
+    context = {
+        'title': 'админка/пользователи',
+        'users': users,
+        }
+
+    return render(request, 'adminapp/users.html', context)
 
 
 def user_create(request):
@@ -34,12 +47,12 @@ def user_create(request):
     else:
         form = FitnessUserRegisterForm()
     
-    content = {
+    context = {
         'title': 'пользователи/создание', 
         'update_form': form
         }
     
-    return render(request, 'adminapp/user_update.html', content)
+    return render(request, 'adminapp/user_update.html', context)
 
 
 def user_update(request, pk):
@@ -54,11 +67,11 @@ def user_update(request, pk):
     else:
         edit_form = FitnessUserAdminEditForm(instance=edit_user)
     
-    content = {
+    context = {
         'title': 'пользователи/редактирование', 
         'update_form': edit_form
         }
-    return render(request, 'adminapp/user_update.html', content)
+    return render(request, 'adminapp/user_update.html', context)
 
 
 
@@ -70,59 +83,148 @@ def user_delete(request, pk):
         user.save()
         return HttpResponseRedirect(reverse('admin:users'))
 
-    content = {
+    context = {
         'title': 'пользователи/удаление', 
         'user_to_delete': user
         }
     
-    return render(request, 'adminapp/user_delete.html', content)
+    return render(request, 'adminapp/user_delete.html', context)
 
 
 def trainings(request):
     """ Функция для отображения тренировок """
-    pass
+    trainings = Training.objects.filter(is_active=True).all()
+    context = {
+        'trainings': trainings,
+    }
+    return render(request, 'adminapp/trainings.html', context)
 
 
 def training_create(request):
     """ Функция для отображения формы создания новой тренировки"""
-    pass
+    if request.method == 'POST':
+        form = TrainingCreateForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('admin:users'))
+    else:
+        form = TrainingCreateForm()
+
+    context = {
+        'title': 'тренировки/создание',
+        'form': form
+    }
+    return render(request, 'adminapp/training_create.html', context)
 
 
 def training_update(request, pk):
     """ Функция для отображения формы редактирования новой тренировки"""
-    pass
+    edit_training = get_object_or_404(Training, pk=pk)
+    if request.method == 'POST':
+        form = TrainingEditForm(request.POST, request.FILES, instance=edit_training)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('admin:training_update', \
+                                                args=[edit_training.pk]))
+    else:
+        form = TrainingEditForm(instance=edit_training)
+
+    context = {
+        'title': 'Тренировки/редактирование',
+        'form': form
+    }
+    return render(request, 'adminapp/training_create.html', context)
 
 
 def training_delete(request, pk):
-    """ Функция для отображения формы удаления новой тренировки"""
-    pass
+    """ Функция для отображения формы удаления новой тренировки """
+    training = get_object_or_404(Training, pk=pk)
+
+    if request.method == 'POST':
+        training.is_active = False
+        training.save()
+        return HttpResponseRedirect(reverse('admin:trainings'))
+
+    context = {
+        'title': 'тренировки/удаление',
+        'training_to_delete': training
+    }
+
+    return render(request, 'adminapp/training_delete.html', context)
 
 
 def schedules(request):
     """ Функция для отображения занятий """
-    pass
+    schedules = Schedule.objects.all()
+    context = {
+        'schedules': schedules,
+    }
+    return render(request, 'adminapp/schedules.html', context)
 
 
 def schedule_create(request):
     """ Функция для отображения формы создания нового занятия"""
-    pass
+    if request.method == 'POST':
+        form = ScheduleCreateForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('admin:schedules'))
+    else:
+        form = ScheduleCreateForm()
+
+    context = {
+        'title': 'занятие/создание',
+        'form': form
+    }
+    return render(request, 'adminapp/schedule_create.html', context)
 
 
 def schedule_update(request, pk):
     """ Функция для отображения формы редактирования нового занятия"""
-    pass
+    edit_schedule = get_object_or_404(Schedule, pk=pk)
+    if request.method == 'POST':
+        form = ScheduleEditForm(request.POST, request.FILES, instance=edit_schedule)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('admin:schedule_update', \
+                                                args=[edit_schedule.pk]))
+    else:
+        form = ScheduleEditForm(instance=edit_schedule)
+
+    context = {
+        'title': 'Занятия/редактирование',
+        'form': form
+    }
+    return render(request, 'adminapp/schedule_create.html', context)
 
 
 def schedule_delete(request, pk):
     """ Функция для отображения формы удаления нового занятия"""
-    pass
+    schedule = get_object_or_404(Schedule, pk=pk)
+
+    if request.method == 'POST':
+        schedule.delete()
+        return HttpResponseRedirect(reverse('admin:schedules'))
+
+    context = {
+        'title': 'занятия/удаление',
+        'schedule_to_delete': schedule
+    }
+
+    return render(request, 'adminapp/schedule_delete.html', context)
 
 
-def progress(request, pk):
+def progress(request):
     """ Функция для отображения графика прогресса тренирующихся"""
-    pass
+    context = {}
+    return render(request, 'adminapp/results.html', context)
 
 
-def messages(request, pk):
+def messages(request):
     """ Функция для отображения сообщений из личных кабинетов тренирующихся"""
-    pass
+    messages = Message.objects.all()
+    context = {
+        'title': 'сообщения',
+        'messages': messages,
+    }
+    return render(request, 'adminapp/messages.html', context)

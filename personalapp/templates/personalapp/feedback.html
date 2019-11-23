@@ -2,6 +2,7 @@
 {% load staticfiles %}
 
 {% block content %}
+    <br><br><br>
   <div class="container">
   	<div class="row">
       <div class="col-md4">
@@ -9,7 +10,14 @@
       </div>
       <div class="col-md4">
       	<h4>Тут будет форма обратной связи</h4>
+          <div class="container pt-5">
+            <form class="form-horizontal" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <table>{{ form.as_table }}</table>
+                <input class="form-control" type="submit" value="сохранить">
+            </form>
+          </div>
       </div>
-  	</div>
+    </div>
   </div>
 {% endblock %}

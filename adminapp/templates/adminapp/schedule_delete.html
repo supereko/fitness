@@ -1,0 +1,23 @@
+{% extends 'adminapp/base.html' %}
+{% load static %}
+
+
+{% block content %}
+    <br><br><br>
+  <div class="user_delete">
+    Уверены, что хотите удалить {{ schedule_to_delete.desc }}
+      {{ schedule_to_delete.is_visit }} {{ schedule_to_delete.date }} {{ schedule_to_delete.time }}
+      {{ schedule_to_delete.training }} {{ schedule_to_delete.fitnessuser }}
+    ?
+    <form action="{% url 'admin:schedule_delete' schedule_to_delete.pk %}"
+          method="post">
+      {% csrf_token %}
+      <input class="btn btn-danger" type="submit" value="удалить">
+    </form>
+    <button class="btn btn-success">
+      <a href="{% url 'admin:schedules' %}">
+        Отмена
+      </a>
+    </button>
+  </div>
+{% endblock %}

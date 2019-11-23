@@ -20,5 +20,5 @@ urlpatterns = [
     path('users/delete/<int:pk>/', adminapp.user_delete, name='user_delete'),
 
     path('progress/', adminapp.progress, name='progress'),
-    path('messages/', adminapp.messages, name='feedback'),
+    path('messages/', adminapp.messages, name='messages'),
 ]

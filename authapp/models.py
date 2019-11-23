@@ -1,5 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import RegexValidator
+
+
+phone_regex = RegexValidator(
+        regex=r'^\+?7?\d{10}$',
+        message="Номер телефона должен быть в формате +79998887766")
 
 
 class FitnessUser(AbstractUser):
@@ -14,6 +20,11 @@ class FitnessUser(AbstractUser):
     height = models.PositiveSmallIntegerField(
         verbose_name=' рост',
         null=True, blank=True
+    )
+    phone_number = models.CharField(
+        validators=[phone_regex],
+        max_length=17,
+        blank=True
     )
 
     def __str__(self):

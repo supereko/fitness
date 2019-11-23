@@ -30,7 +30,7 @@ class FitnessUserRegisterForm(UserCreationForm):
 class FitnessUserEditForm(UserChangeForm):
     class Meta:
         model = FitnessUser
-        fields = ('username', 'first_name', 'last_name', 'email', 'date_birth', 'avatar', 'password')
+        fields = ('avatar', 'username', 'first_name', 'last_name', 'email', 'date_birth', 'password')
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
