@@ -16,9 +16,10 @@ from mainapp.models import (FitnessUser, ExtractYear, Training,
 @user_passes_test(lambda u: u.is_superuser)
 def users(request):
     year = now().isocalendar()[0]
-    users_list = FitnessUser.objects.annotate(
+    users_list = FitnessUser.objects.exclude(
+        is_active=False).annotate(
         age=year-ExtractYear('date_birth')).order_by(
-        '-is_active', '-is_superuser', '-is_staff', 'username'
+        '-is_superuser', '-is_staff', 'username'
     )
     paginator = Paginator(users_list, 3)
     page = request.GET.get('page', 1)
@@ -72,7 +73,6 @@ def user_update(request, pk):
         'update_form': edit_form
         }
     return render(request, 'adminapp/user_update.html', context)
-
 
 
 def user_delete(request, pk):
