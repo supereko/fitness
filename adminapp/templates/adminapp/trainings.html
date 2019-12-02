@@ -3,35 +3,64 @@
 
 {% block content %}
     <br><br><br>
-<div class="container h-100">
-  <div class="row h-100 justify-content-center align-items-center">
-    <dl class="dl-horizontal">
-        <dt>
-          <button class="new_user">
-            <a href="{% url 'admin:training_create' %}"> новая тренировка </a>
-          </button>
-        </dt><dd></dd>
+    <div class="dl-horizontal">
+            <button class="btn btn-outline-primary">
+              <a href="{% url 'admin:training_create' %}"> новая тренировка </a>
+            </button>
         {% for training in trainings %}
-        <dt>
-            <div>
-                <p>
-                    {{ training.desc|title }}
-                    {{ training.short_desc|title }}
-                </p>
-              <button> <a href="{% url 'admin:training_update' training.pk %}">
-                  редактировать
-                </a>
-              </button>
-              <button>
-                <a href="{% url 'admin:training_delete' training.pk %}">
-                  удалить
-                </a>
-              </button>
-            </div>
-        </dt>
-        <dd>
-   {% endfor%}
-    </dl>
+            <p class="col-5">
+                {{ training.short_desc|title }}
+                {{ training.desc|title }}
+            </p>
+            <button class="btn btn-outline-primary"> <a href="{% url 'admin:training_update' training.pk %}">
+                редактировать
+              </a>
+            </button>
+            <button class="btn btn-outline-primary">
+              <a href="{% url 'admin:training_delete' training.pk %}">
+                удалить
+              </a>
+            </button>
+        {% endfor%}
     </div>
-  </div>
+
+    <div class="container">
+      <div class="row justify-content-center align-items-center">
+            {% if trainings.has_other_pages %}
+              <ul class="pagination">
+                {% if trainings.has_previous %}
+                  <li class="page-item">
+                      <a class="page-link" href="?page={{ trainings.previous_page_number }}">Предыдущая</a>
+                  </li>
+                {% else %}
+                  <li class="page-item disabled">
+                      <a class="page-link"><span>Предыдущая</span></a>
+                  </li>
+                {% endif %}
+                {% for i in trainings.paginator.page_range %}
+                  {% if trainings.number == i %}
+                      <li class="page-item active">
+                          <a class="page-link"><span>{{ i }}</span></a><span class="sr-only">(current)</span>
+                      </li>
+                  {% else %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                    </li>
+                  {% endif %}
+                {% endfor %}
+                {% if trainings.has_next %}
+                  <li class="page-item">
+                      <a class="page-link" href="?page={{ trainings.next_page_number }}">Следущая</a>
+                  </li>
+                {% else %}
+                  <li class="page-item disabled">
+                      <a class="page-link"><span>Следущая</span></a>
+                  </li>
+                {% endif %}
+              </ul>
+            {% endif %}
+      </div>
+    </div>
+
+  <br><br><br>
 {% endblock %}

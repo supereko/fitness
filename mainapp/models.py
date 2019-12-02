@@ -24,38 +24,38 @@ class Antropometry(models.Model):
     """ Модель для хранения антропометричесих данных
     по каждому тренирующемуся в определнный момент времени"""
     weight = models.PositiveSmallIntegerField(
-        verbose_name=' вес',
-        null=True, blank=True,
+        verbose_name=' вес, кг',
+        #null=True, blank=True,
         )
     chest = models.PositiveSmallIntegerField(
-        verbose_name=' окружность грудной клетки',
-        null=True, blank=True,
+        verbose_name=' окружность грудной клетки, см',
+        #null=True, blank=True,
         )
     abdominal = models.PositiveSmallIntegerField(
-        verbose_name=' окружность живота',
-        null=True, blank=True,
+        verbose_name=' окружность живота, см',
+        #null=True, blank=True,
         )
     biceps = models.PositiveSmallIntegerField(
-        verbose_name=' окружность бицепса',
-        null=True, blank=True,
+        verbose_name=' окружность бицепса, см',
+        #null=True, blank=True,
         )
     thigh = models.PositiveSmallIntegerField(
-        verbose_name=' окружность бедра',
-        null=True, blank=True,
+        verbose_name=' окружность бедра, см',
+        #null=True, blank=True,
         )
     shin = models.PositiveSmallIntegerField(
-        verbose_name=' окружность голени',
-        null=True, blank=True,
+        verbose_name=' окружность голени, см',
+        #null=True, blank=True,
         )
     add_datetime = models.DateTimeField(
-        verbose_name='время добавления данных', 
-        auto_now=True
+        verbose_name='время добавления данных, см',
+        #null=True, blank=True,
         )
     fitnessuser = models.ForeignKey(
         FitnessUser, 
         verbose_name = "Ссылка на тренирующегося",
         on_delete=models.CASCADE, 
-        null=True, blank=True
+        #null=True, blank=True
         )
     
     def get_effect(self):
@@ -96,7 +96,7 @@ class Schedule(models.Model):
         null=True, blank=True
     )
     is_visit = models.BooleanField(
-        verbose_name='пришел ли ты на тренировку',
+        verbose_name='пришел ли на тренировку',
         default=False
         )
     fitnessuser = models.ForeignKey(
@@ -129,6 +129,11 @@ class Message(models.Model):
         on_delete=models.CASCADE,
         null=True, blank=True
         )
+    timestamp = models.DateTimeField(
+        verbose_name='датавремя отправки сообщения',
+        null=True, blank=True,
+    )
+
     def __str__(self):
         return self.body[:50]
 

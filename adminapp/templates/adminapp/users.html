@@ -3,15 +3,13 @@
 
 {% block content %}
     <br><br><br>
-    <dl class="dl-horizontal">
-        <dt>
+    <div class="dl-horizontal">
           <button type="button" class="btn btn-outline-primary">
             <a href="{% url 'admin:user_create' %}"> новый пользователь </a>
           </button>
-        </dt><dd></dd>
         {% for user in users %}
-        <dt>
-            <p><img class="leftimg" src="/media/{{ user.avatar|default:'users_avatars/default.jpg' }}"
+        <div>
+            <p><img class="rounded-circle" src="{{ MEDIA_URL }}{{ user.avatar|default:'users_avatars/default.jpg' }}"
                     height="70" width="70" alt="{{ user.username }}">
                  <div>
                      <div>
@@ -22,24 +20,23 @@
                     <div class="user_age"> возраст:{{ user.age }} лет </div>
                     <div class="user_email"> email:{{ user.email }} </div>
                     <div class="user_lastlogin"> последний раз был(а):{{ user.last_login }} </div>
-                </div>
+                 </div>
+                 {% if user.is_superuser %} администратор {% else %} пользователь {% endif %}
+                  <button type="button" class="btn btn-outline-primary">
+                      <a href="{% url 'admin:user_update' user.pk %}">
+                      редактировать
+                    </a>
+                  </button>
+                  <button type="button" class="btn btn-outline-primary">
+                    <a href="{% url 'admin:user_delete' user.pk %}">
+                      удалить
+                    </a>
+                  </button>
             </p>
-        </dt>
-        <dd>
-            {% if user.is_superuser %} администратор {% else %} пользователь {% endif %}
-              <button type="button" class="btn btn-outline-primary">
-                  <a href="{% url 'admin:user_update' user.pk %}">
-                  редактировать
-                </a>
-              </button>
-              <button type="button" class="btn btn-outline-primary">
-                <a href="{% url 'admin:user_delete' user.pk %}">
-                  удалить
-                </a>
-              </button>
-        </dd>
+        </div>
         {% endfor%}
-    </dl>
+    </div>
+
     <div class="container">
       <div class="row justify-content-center align-items-center">
             {% if users.has_other_pages %}
@@ -53,7 +50,7 @@
                       <a class="page-link"><span>Предыдущая</span></a>
                   </li>
                 {% endif %}
-                {% for i in photos.paginator.page_range %}
+                {% for i in users.paginator.page_range %}
                   {% if users.number == i %}
                       <li class="page-item active">
                           <a class="page-link"><span>{{ i }}</span></a><span class="sr-only">(current)</span>
@@ -75,5 +72,7 @@
                 {% endif %}
               </ul>
             {% endif %}
+      </div>
     </div>
+  <br><br><br>
 {% endblock %}

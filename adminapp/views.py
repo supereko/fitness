@@ -93,7 +93,16 @@ def user_delete(request, pk):
 
 def trainings(request):
     """ Функция для отображения тренировок """
-    trainings = Training.objects.filter(is_active=True).all()
+    training_list = Training.objects.filter(is_active=True)
+    paginator = Paginator(training_list, 4)
+    page = request.GET.get('page', 1)
+    try:
+        trainings = paginator.page(page)
+    except PageNotAnInteger:
+        trainings = paginator.page(1)
+    except EmptyPage:
+        trainings = paginator.page(paginator.num_pages)
+
     context = {
         'trainings': trainings,
     }
@@ -222,7 +231,16 @@ def progress(request):
 
 def messages(request):
     """ Функция для отображения сообщений из личных кабинетов тренирующихся"""
-    messages = Message.objects.all()
+    message_list = Message.objects.order_by("-timestamp")
+    paginator = Paginator(message_list, 4)
+    page = request.GET.get('page', 1)
+    try:
+        messages = paginator.page(page)
+    except PageNotAnInteger:
+        messages = paginator.page(1)
+    except EmptyPage:
+        messages = paginator.page(paginator.num_pages)
+
     context = {
         'title': 'сообщения',
         'messages': messages,

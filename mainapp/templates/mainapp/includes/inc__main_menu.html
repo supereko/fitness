@@ -15,13 +15,13 @@
     		<span class="sr-only"><h4>питание</h4></span>
     	</a>
     </li>
-	<li class="nav-item {% if request.resolver_match.url_name == 'index'%} active {% endif%}">
+	<li class="nav-item {% if request.resolver_match.url_name == 'progress'%} active {% endif%}">
     	<a class="nav-link" href="{% url 'main:progress' %}"
     		<span class="sr-only"><h4>прогресс месяца</h4></span>
     	</a>
     </li>
 	{% if user.is_authenticated %}
-		<li class="nav-item {% if request.resolver_match.url_name == 'update'%} active {% endif%}">
+		<li class="nav-item {% if request.resolver_match.url_name == 'index'%} active {% endif%}">
 			<a class="nav-link" href="{% url 'personal:index' %}">
 				<h4>{{ user.first_name|default:'пользователь' }}</h4>
 			</a>
@@ -30,12 +30,12 @@
 			<a class="nav-link" href="{% url 'auth:logout' %}"><h4>выйти</h4></a>
 		</li>
 		{% else %}
-		<li class="nav-item">
+		<li class="nav-item {% if request.resolver_match.url_name == 'login'%} active {% endif%}">
 			<a class="nav-link" href="{% url 'auth:login' %}"><h4>личный кабинет</h4></a>
 		</li>
 	{% endif %}
 	{% if user.is_superuser %}
-	  	<li class="nav-item">
+    <li class="nav-item {% if request.resolver_match.url_name == 'users'%} active {% endif%}">
 			<a class="nav-link" href="{% url 'admin:users' %}"><h4>админка</h4></a>
 		</li>
 	{% endif %}

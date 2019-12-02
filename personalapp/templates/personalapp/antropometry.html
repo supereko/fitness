@@ -10,12 +10,35 @@
       </div>
       <div class="col-md2">
           <br><br>
-            <form class="form-horizontal" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <table>{{ form.as_table }}</table>
-                <input class="form-control" type="submit" value="сохранить">
-            </form>
-          </div>
+            <table class="table">
+              <thead>
+                <th>дата</th><th>вес</th><th>ОГ</th><th>ОЖ</th><th>ОБиц</th><th>ОБед</th><th>ОГол</th>
+              </thead>
+              <tbody>
+              {% for ant in antropometries %}
+                  <tr>
+                    <td>{{ ant.add_datetime }}</td>
+                    <td>{{ ant.weight }}</td>
+                    <td>{{ ant.chest }}</td>
+                    <td>{{ ant.abdominal }}</td>
+                    <td>{{ ant.biceps }}</td>
+                    <td>{{ ant.thigh }}</td>
+                    <td>{{ ant.shin }}</td>
+                  </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+            <br><br>
+            <div>
+                Введите новые антропометрические данные<br>
+                <form class="form-horizontal" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <table>{{ form.as_table }}</table>
+                    <input class="form-control" type="submit" value="сохранить">
+                </form>
+              <br><br><br><br>
+            </div>
+      </div>
   	</div>
   </div>
 {% endblock %}

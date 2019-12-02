@@ -1,7 +1,8 @@
+from django.db.models import Max
 from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-from mainapp.models import Photo
+from mainapp.models import Photo, Antropometry
 
 
 def gallery(request):
@@ -31,4 +32,10 @@ def diet(request):
 
 
 def progress(request):
-    return render(request, 'mainapp/progress.html', {'title': 'прогресс месяца'})
+    max_abdominal = Antropometry.objects.aggregate(Max('abdominal'))
+    winner = Antropometry.objects.filter(abdominal=max_abdominal).first()
+    context = {
+        'title': 'прогресс месяца',
+        'winner': winner,
+    }
+    return render(request, 'mainapp/progress.html', context)

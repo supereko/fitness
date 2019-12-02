@@ -53,6 +53,7 @@ class ScheduleCreateForm(forms.ModelForm):
             'time': TimeInput(),
         }
 
+
 class ScheduleEditForm(forms.ModelForm):
     class Meta:
         model = Schedule

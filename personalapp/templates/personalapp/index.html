@@ -10,6 +10,17 @@
       </div>
       <div class="col-md2">
         <br><br>
+        <div>
+          <p>Расписание будущих тренировок</p>
+          {% if future_shed_user %}
+            {% for shed in future_shed_user %}
+                <div>{{ shed.date }} {{ shed.time }}</div>
+            {% endfor %}
+          {% else %}
+            У вас не запланированы тренировки
+          {% endif %}
+        </div>
+
             <table class="table table-striped">
                 <thead class="thead-inverse">
                     <tr>
@@ -24,12 +35,20 @@
                 <tbody>
                     {% for hour in hour_current_day %}
                     <tr>
-                        <td>{{ hour }}</td>
+                        <td>{{ hour }} </td>
                         {% for day in day_current_week %}
                             <td rowspan="1">
                              {% for item in items %}
-                                {% if item.date == day and item.time == hour %}
-                                    {{ item.fitnessuser }} {{ item.training }}
+                                {% if item.date == day and item.time >= hour and item.time|date:"H" <= hour|date:"H" %}
+                                  {% if item.date|date:"d" > now|date:"d" and item.time|date:"h" > now|date:"h"%}
+                                       <p class="btn-secondary m-0 p-0">
+                                    {% elif item.is_visit %}
+                                       <p class="btn-success m-0 p-0">
+                                    {% else %}
+                                        <p class="btn-danger m-0 p-0">
+                                    {% endif %}
+                                          {{ item.time }}<br>{{ item.fitnessuser }} {{ item.training }}
+                                        </p>
                                 {% endif %}
                             {% endfor %}
                             </td>

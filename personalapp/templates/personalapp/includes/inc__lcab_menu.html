@@ -2,7 +2,7 @@
 <ul class="navbar-nav justify-content-left text-left">
   {% if user.is_authenticated %}
       <li class="nav-item">
-          <img src="{{ MEDIA_URL }}{{ user.avatar }}" width='90' height='70' alt=''>
+          <img class="rounded-circle" src="{{ MEDIA_URL }}{{ user.avatar }}" width='90' height='70' alt=''>
           <div>Ваш личный кабинет <br>{{ user }}</div>
           <button type="button" class="btn btn-outline-primary">
               <a href="{% url 'auth:update' %}"> Редактировать профиль </a>

@@ -1,8 +1,11 @@
-<n<nav class="navbar bg-light">
+<br><br><br>
+<nav class="navbar bg-light">
 <ul class="navbar-nav justify-content-left text-left">
   {% if user.is_authenticated %}
-      <li class="nav-item">{{ user.get_username }}</li>
       <li class="nav-item">
+        {{ user.get_username }}
+      </li>
+      <li class="nav-item active">
         <a class="nav-link" href="{% url 'adminapp:trainings' %}">Тренировки</a>
       </li>
       <li class="nav-item">
