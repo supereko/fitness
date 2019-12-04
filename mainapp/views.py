@@ -33,9 +33,9 @@ def diet(request):
 
 def progress(request):
     max_abdominal = Antropometry.objects.aggregate(Max('abdominal'))
-    winner = Antropometry.objects.filter(abdominal=max_abdominal).first()
+    winner = Antropometry.objects.filter(abdominal=max_abdominal['abdominal__max']).first()
     context = {
         'title': 'прогресс месяца',
-        'winner': winner,
+        'winner': winner.fitnessuser,
     }
     return render(request, 'mainapp/progress.html', context)
