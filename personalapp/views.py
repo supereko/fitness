@@ -1,4 +1,5 @@
 import datetime as dt
+from django.conf import settings
 from django.db.models import Max, Min, Sum, Avg
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
@@ -16,8 +17,9 @@ def index(request):
     monday = today + dt.timedelta(days=-today.weekday())
     # получаем список дат в текущей неделе
     day_current_week = [monday + dt.timedelta(days=i) for i in range(7)]
-    # получаем список часов работы тренажерного зала с 7:00 до 22:00
-    hour_current_day = [dt.time(7 + i) for i in range(16)]
+    # получаем список часов работы тренажерного зала
+    OPEN, CLOSE = settings.OPENING_HOURS
+    hour_current_day = [dt.time(OPEN + i) for i in range(CLOSE - OPEN)]
     week_number = now().isocalendar()[1]
     shed_user = Schedule.objects.filter(
         fitnessuser=request.user

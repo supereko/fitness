@@ -1,15 +1,15 @@
 <br><br><br>
 <nav class="navbar bg-light">
-<ul class="navbar-nav justify-content-left text-left">
+<ul class="nav flex-column">
   {% if user.is_authenticated %}
       <li class="nav-item">
-        {{ user.get_username }}
+        <a class="nav-link" href="#">{{ user.get_username }}</a>
       </li>
-      <li class="nav-item active">
+      <li class="nav-item">
         <a class="nav-link" href="{% url 'adminapp:trainings' %}">Тренировки</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'adminapp:users' %}">Тренирующиеся</a>
+        <a class="nav-link active" href="{% url 'adminapp:users' %}">Тренирующиеся</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{% url 'adminapp:schedules' %}">Занятия</a>

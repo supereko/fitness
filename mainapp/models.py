@@ -1,5 +1,8 @@
 from random import random
-from django import forms
+import datetime as dt
+from django.utils.timezone import now
+from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.functions import Extract
 
@@ -114,6 +117,14 @@ class Schedule(models.Model):
 
     def __str__(self):
         return f'{self.fitnessuser } { self.date } { self.time } { self.training }'
+
+    def clean(self):
+        OPEN, CLOSE = settings.OPENING_HOURS
+        print(self.date, now().date())
+        if self.date < now().date():
+            raise ValidationError('Нельзя запланировать тренировку в прошлом')
+        if self.time < dt.time(OPEN) or self.time > dt.time(CLOSE):
+            raise ValidationError('Вы указали нерабочее время')
 
 
 class Message(models.Model):

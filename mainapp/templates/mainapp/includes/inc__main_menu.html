@@ -1,42 +1,40 @@
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
-  <ul class="navbar-nav">
-    <li class="nav-item {% if request.resolver_match.url_name == 'gallery'%} active {% endif%}">
-    	<a class="nav-link" href="{% url 'main:gallery' %}" 
-    		<span class="sr-only"><h4>галерея</h4></span>
-    	</a>
-   </li>
-    <li class="nav-item {% if request.resolver_match.url_name == 'exercise'%} active {% endif%}">
-    	<a class="nav-link" href="{% url 'main:exercise' %}"
-    		<span class="sr-only"><h4>техника упражнений</h4></span>
-    	</a>
-    </li>
-    <li class="nav-item {% if request.resolver_match.url_name == 'diet'%} active {% endif%}">
-    	<a class="nav-link" href="{% url 'main:diet' %}" 
-    		<span class="sr-only"><h4>питание</h4></span>
-    	</a>
-    </li>
-	<li class="nav-item {% if request.resolver_match.url_name == 'progress'%} active {% endif%}">
-    	<a class="nav-link" href="{% url 'main:progress' %}"
-    		<span class="sr-only"><h4>прогресс месяца</h4></span>
-    	</a>
-    </li>
-	{% if user.is_authenticated %}
-		<li class="nav-item {% if request.resolver_match.url_name == 'index'%} active {% endif%}">
-			<a class="nav-link" href="{% url 'personal:index' %}">
-				<h4>{{ user.first_name|default:'пользователь' }}</h4>
-			</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link" href="{% url 'auth:logout' %}"><h4>выйти</h4></a>
-		</li>
-		{% else %}
-		<li class="nav-item {% if request.resolver_match.url_name == 'login'%} active {% endif%}">
-			<a class="nav-link" href="{% url 'auth:login' %}"><h4>личный кабинет</h4></a>
-		</li>
-	{% endif %}
-	{% if user.is_superuser %}
-    <li class="nav-item {% if request.resolver_match.url_name == 'users'%} active {% endif%}">
-			<a class="nav-link" href="{% url 'admin:users' %}"><h4>админка</h4></a>
-		</li>
-	{% endif %}
-  </ul>
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav">
+        <li class="nav-item {% if request.resolver_match.url_name == 'gallery'%} active {% endif%}">
+          <a class="nav-link" href="{% url 'main:gallery'%}">галерея</a>
+        </li>
+        <li class="nav-item {% if request.resolver_match.url_name == 'exercise'%} active {% endif%}">
+          <a class="nav-link" href="{% url 'main:exercise' %}">техника упражнений</a>
+        </li>
+        <li class="{% if request.resolver_match.url_name == 'diet'%} active {% endif%}">
+          <a class="nav-link" href="{% url 'main:diet'%}">питание</a>
+        </li>
+        <li class="nav-item {% if request.resolver_match.url_name == 'progress'%} active {% endif%}">
+          <a class="nav-link" href="{% url 'main:progress' %}">прогресс месяца</a>
+        </li>
+        {% if user.is_authenticated %}
+          <li class="nav-item {% if request.resolver_match.url_name == 'diet'%} active {% endif%}">
+            <a class="nav-link" href="{% url 'personal:index' %}">{{ user.first_name|default:'пользователь' }}</a>
+          </li>
+          <li class="nav-item {% if request.resolver_match.url_name == 'index'%} active {% endif%}">
+            <a class="nav-link" href="{% url 'auth:logout' %}">выйти</a>
+          </li>
+        {% else %}
+          <li class="nav-item {% if request.resolver_match.url_name == 'personal'%} active {% endif%}">
+            <a class="nav-link" href="{% url 'auth:login' %}">личный кабинет</a>
+          </li>
+        {% endif %}
+        {% if user.is_superuser %}
+          <li class="nav-item {% if request.resolver_match.url_name == 'users'%} active {% endif%}">
+            <a class="nav-link" href="{% url 'admin:users' %}">админка</a>
+          </li>
+        {% endif %}
+    </ul>
+  </div>
+</nav>

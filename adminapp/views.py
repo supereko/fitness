@@ -164,7 +164,7 @@ def training_delete(request, pk):
 
 def schedules(request):
     """ Функция для отображения занятий """
-    schedules = Schedule.objects.all()
+    schedules = Schedule.objects.order_by('-date', '-time')
     context = {
         'schedules': schedules,
     }

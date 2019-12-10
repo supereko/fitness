@@ -133,3 +133,6 @@ STATICFILES_DIRS = (
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Часы работы тренажерного зала
+OPENING_HOURS = (7, 22)
